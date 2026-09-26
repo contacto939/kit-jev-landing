@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit Jev gratis · Centry</title>
+<meta name="description" content="Kit gratuito para probar Jev con tus propios datos: clasificador, las dos pruebas del vídeo, el test de indexación y la hoja de decisión.">
+<meta property="og:title" content="Kit Jev gratis: pruébalo con tus datos">
+<meta property="og:description" content="Clasificador, las dos pruebas del vídeo cronometradas, el test de indexación y la hoja de decisión. Sin dependencias.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#E6E9E4; --surface:#FBFCFA; --sunk:#DCE0DA;
+  --ink:#171D19; --ink-soft:#4E5A52; --ink-faint:#7C887F;
+  --rule:#CBD2C9; --rule-soft:#DDE2DA;
+  --signal:#B4451D; --signal-soft:#F2E0D6;
+  --calib:#1C5B4F; --calib-soft:#DCE9E4;
+  --shadow:0 1px 2px rgba(23,29,25,.07), 0 6px 18px -12px rgba(23,29,25,.25);
+  --disp:'Bricolage Grotesque',system-ui,sans-serif;
+  --body:'Public Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#10150F; --surface:#181E18; --sunk:#0B0F0A;
+    --ink:#E8EEE6; --ink-soft:#A3B0A5; --ink-faint:#748177;
+    --rule:#2A332B; --rule-soft:#222A23;
+    --signal:#E38254; --signal-soft:#2E1B12;
+    --calib:#5CC0A9; --calib-soft:#102723;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 6px 20px -12px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#10150F; --surface:#181E18; --sunk:#0B0F0A;
+  --ink:#E8EEE6; --ink-soft:#A3B0A5; --ink-faint:#748177;
+  --rule:#2A332B; --rule-soft:#222A23;
+  --signal:#E38254; --signal-soft:#2E1B12;
+  --calib:#5CC0A9; --calib-soft:#102723;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 6px 20px -12px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:940px;margin:0 auto;padding:0 22px}
+p{margin:0 0 1em}
+strong{font-weight:600}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- hero ---------- */
+.hero{padding:62px 0 46px}
+.kicker{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--signal);margin-bottom:22px}
+.kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal)}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(38px,6.6vw,68px);line-height:.98;
+  letter-spacing:-.035em;margin:0 0 20px;max-width:16ch;text-wrap:balance}
+.lede{font-size:20px;line-height:1.5;color:var(--ink-soft);max-width:54ch;margin:0 0 34px}
+.lede em{color:var(--ink);font-style:normal;font-weight:600}
+
+/* gauge: la pieza gráfica del hero, y es información real */
+.gauge{background:var(--surface);border:1px solid var(--rule);border-radius:6px;
+  padding:20px 22px;max-width:560px;box-shadow:var(--shadow)}
+.gauge .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:14px}
+.bar{display:grid;grid-template-columns:132px 1fr 62px;gap:12px;align-items:center;margin-bottom:9px;
+  font-family:var(--mono);font-size:12.5px}
+.bar .track{height:9px;background:var(--sunk);border-radius:5px;overflow:hidden}
+.bar .fill{display:block;height:100%;border-radius:5px;background:var(--signal)}
+.bar.ok .fill{background:var(--calib)}
+.bar .val{text-align:right;color:var(--ink-soft)}
+.bar .nm{color:var(--ink-soft)}
+.gauge .foot{font-size:13px;color:var(--ink-faint);margin:14px 0 0;line-height:1.5}
+
+/* ---------- secciones ---------- */
+section{padding:46px 0;border-top:1px solid var(--rule)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-faint);margin:0 0 12px}
+h2{font-family:var(--disp);font-weight:700;font-size:clamp(25px,3.4vw,36px);line-height:1.08;
+  letter-spacing:-.025em;margin:0 0 18px;text-wrap:balance;max-width:22ch}
+h3{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:-.015em;margin:0 0 7px}
+.prose{max-width:62ch}
+.prose ul{padding-left:20px}
+.prose li{margin-bottom:.45em}
+
+/* piezas del kit */
+.parts{display:grid;gap:14px;margin-top:26px}
+@media(min-width:760px){.parts{grid-template-columns:repeat(2,1fr)}}
+.part{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:20px;
+  display:flex;flex-direction:column;gap:9px}
+.part .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--calib)}
+.part p{font-size:15px;color:var(--ink-soft);margin:0}
+.part .file{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-top:auto;padding-top:9px}
+
+/* formulario */
+.capture{background:var(--surface);border:1px solid var(--rule);border-radius:8px;
+  padding:30px;box-shadow:var(--shadow);max-width:620px}
+.capture h2{margin-bottom:10px;font-size:clamp(23px,3vw,30px)}
+.capture .sub{font-size:15.5px;color:var(--ink-soft);margin:0 0 20px}
+form{display:flex;gap:10px;flex-wrap:wrap}
+input[type=email]{flex:1 1 250px;min-width:0;background:var(--ground);color:var(--ink);
+  border:1px solid var(--rule);border-radius:5px;padding:13px 15px;font-family:var(--body);font-size:16px}
+input[type=email]::placeholder{color:var(--ink-faint)}
+button{background:var(--signal);color:#FBFCFA;border:0;border-radius:5px;padding:13px 26px;
+  font-family:var(--disp);font-size:16px;font-weight:700;letter-spacing:-.01em;cursor:pointer;white-space:nowrap}
+button:hover{filter:brightness(1.07)}
+.fineprint{font-size:13px;color:var(--ink-faint);margin:14px 0 0}
+
+/* VSL */
+.vsl{background:var(--sunk);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  margin-top:10px}
+.vsl .inner{max-width:940px;margin:0 auto;padding:52px 22px}
+.vsl h2{max-width:24ch}
+.slot{border-left:3px solid var(--signal);padding:3px 0 3px 16px;margin:0 0 20px;max-width:62ch}
+.slot .what{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--signal);display:block;margin-bottom:5px}
+.slot p:last-child{margin:0}
+.fill{background:var(--signal-soft);color:var(--signal);font-family:var(--mono);font-size:.86em;
+  padding:1px 6px;border-radius:3px;font-weight:700}
+.cta-row{margin-top:28px}
+.cta-btn{display:inline-block;background:var(--ink);color:var(--ground);text-decoration:none;
+  font-family:var(--disp);font-weight:700;font-size:17px;padding:14px 30px;border-radius:5px}
+
+/* faq */
+.faq{display:grid;gap:0;max-width:66ch;margin-top:20px;border-top:1px solid var(--rule-soft)}
+.qa{padding:17px 0;border-bottom:1px solid var(--rule-soft)}
+.qa h3{margin-bottom:5px}
+.qa p{font-size:15.5px;color:var(--ink-soft);margin:0}
+
+footer{padding:34px 0 60px;font-size:14px;color:var(--ink-faint)}
+footer a{color:var(--calib)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">Kit gratuito</span>
+    <h1>Jev no te va a ahorrar dinero</h1>
+    <p class="lede">A menos que sepas <em>dónde</em> usarlo. Este kit es lo que uso para averiguarlo:
+    un clasificador que corres con tus propios datos, las dos pruebas del vídeo, el test que destapa el fallo de la
+    documentación, y una hoja de una página para decidir en un minuto si tu caso vale la pena.</p>
+
+    <!-- OCULTO hasta tener las mediciones propias: cambia 27 % y 9 % (y el ancho de cada
+         barra) por los resultados de benchmark/test_indexacion.py y quita el atributo hidden -->
+    <div class="gauge" hidden>
+      <p class="lbl">Test de indexación · 320 elementos · cuatro formas de pasarlos</p>
+      <div class="bar"><span class="nm">array[i], 150</span><span class="track"><span class="fill" style="width:27%"></span></span><span class="val">27 % error</span></div>
+      <div class="bar"><span class="nm">array[i], 25</span><span class="track"><span class="fill" style="width:9%"></span></span><span class="val">9 % error</span></div>
+      <div class="bar ok"><span class="nm">objeto con clave</span><span class="track"><span class="fill" style="width:1%"></span></span><span class="val">0 % error</span></div>
+      <div class="bar ok"><span class="nm">dentro de la pregunta</span><span class="track"><span class="fill" style="width:1%"></span></span><span class="val">0 % error</span></div>
+      <p class="foot">El mismo trabajo en los cuatro casos. Lo único que cambia es cómo señalas cada
+      elemento dentro de la petición. El script está en el kit para que saques tus propios números.</p>
+    </div>
+  </div>
+
+  <section>
+    <p class="eyebrow">Qué hay dentro</p>
+    <h2>Todo lo del vídeo, sin dependencias</h2>
+    <div class="parts">
+      <div class="part">
+        <span class="tag">01 · Ejecutable</span>
+        <h3>El clasificador</h3>
+        <p>Una app local. Pegas tu CSV, escribes el criterio, y clasifica cada fila con el tiempo y el
+        coste reales en pantalla. Con umbral de confianza: lo dudoso sale marcado para revisar.</p>
+        <span class="file">clasificador/clasificador.py</span>
+      </div>
+      <div class="part">
+        <span class="tag">02 · Reproducible</span>
+        <h3>El test de indexación</h3>
+        <p>320 mensajes con etiqueta conocida, cuatro estrategias, precisión medida. Saca tu CSV de
+        resultados y publícalo. Esto es lo que te va a hacer discutir con datos, no con opiniones.</p>
+        <span class="file">benchmark/test_indexacion.py</span>
+      </div>
+      <div class="part">
+        <span class="tag">03 · Una página</span>
+        <h3>La hoja de decisión</h3>
+        <p>Cuándo gana, cuándo pierde, cómo elegir el umbral y cómo pasarle muchos elementos sin que
+        se rompa. Más el prompt exacto para conectarlo a Claude Code.</p>
+        <span class="file">hoja-de-decision.md</span>
+      </div>
+      <div class="part">
+        <span class="tag">04 · Las dos pruebas</span>
+        <h3>Las pruebas del vídeo</h3>
+        <p>Las mismas dos pruebas, listas para repetirlas en tu ordenador: se cronometran solas y te
+        dan el tiempo y el coste de cada carril. Con la habilidad de Jev para Claude Code.</p>
+        <span class="file">pruebas/ · skill-jev/</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="capture">
+      <h2>Te lo mando ahora</h2>
+      <p class="sub">Un correo con el enlace al kit y la hoja de decisión en PDF, al momento.</p>
+      <!-- CONECTAR: pega en data-endpoint la Production URL del webhook de n8n
+           (workflow n8n/kit-jev-emails.json). -->
+      <form id="kit-form" data-endpoint="PEGA_AQUI_LA_URL_DEL_WEBHOOK_DE_N8N">
+        <label for="email" style="position:absolute;left:-9999px">Tu correo</label>
+        <input id="email" type="email" name="email" required placeholder="tu@correo.com" autocomplete="email">
+        <button type="submit">Enviarme el kit</button>
+      </form>
+      <p class="fineprint" id="kit-estado" role="status" aria-live="polite"></p>
+      <p class="fineprint">Te enviaré el kit y, de vez en cuando, algo que merezca la pena. Para darte
+      de baja, responde BAJA a cualquier correo. No comparto tu correo con nadie. Responsable: Centry ·
+      <a href="https://iacentry.com/privacidad/">política de privacidad</a>.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="vsl">
+  <div class="inner">
+    <p class="eyebrow">Y si prefieres que lo montemos nosotros</p>
+    <h2>El modelo no es el problema. El proceso sí.</h2>
+
+    <div class="prose">
+      <p>Lo que veo siempre es lo mismo: alguien mete una IA encima de un proceso que nadie ha
+      definido del todo, y lo único que consigue es equivocarse más rápido y más barato. La IA no
+      arregla un proceso confuso. Lo acelera.</p>
+      <p>Por eso en <strong>Centry</strong> empezamos por el negocio, no por la herramienta.
+      Automatizamos con IA el trabajo repetitivo que se come el día de tu equipo: contestar a
+      clientes, mover datos de una herramienta a otra, sacar datos de documentos.</p>
+    </div>
+
+    <div class="slot">
+      <span class="what">Cómo trabajamos</span>
+      <p>Una videollamada gratuita sobre tu negocio: no es una demo ni una presentación comercial.
+      Vemos dónde se te va el tiempo y qué se puede automatizar. Si tiene sentido, te damos alcance,
+      plazo y precio por escrito antes de construir nada, y entregamos por fases, midiendo y ajustando.</p>
+    </div>
+
+    <div class="slot">
+      <span class="what">Lo que no cambia</span>
+      <p>Tus herramientas y tu CRM siguen siendo los mismos: nos conectamos a lo que ya usas. Los
+      datos son tuyos. La ingeniería es nuestra, no revendemos plataformas de terceros.</p>
+    </div>
+
+    <div class="slot">
+      <span class="what">Cómo medimos</span>
+      <p>Igual que en el vídeo: con tus datos, el tiempo y el coste de cada opción antes de prometerte
+      nada. No publicamos porcentajes que no podamos demostrar.</p>
+    </div>
+
+    <div class="slot">
+      <span class="what">Lo que no automatizamos</span>
+      <p>Negociar, tomar decisiones legales o cualquier cosa en la que el criterio tiene que ser de una
+      persona. Y a veces la respuesta es que no hace falta automatizar nada: si tu caso cabe en el kit
+      de arriba, móntalo tú en una tarde.</p>
+    </div>
+
+    <div class="cta-row">
+      <a class="cta-btn" href="https://iacentry.com/contacto/">Reserva tu consultoría gratuita</a>
+      <p class="fineprint">Videollamada de menos de una hora · sin coste · sin compromiso ·
+      respondemos en menos de 24 horas.</p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section style="border-top:0">
+    <p class="eyebrow">Antes de que preguntes</p>
+    <h2>Lo que no te va a gustar</h2>
+    <div class="faq">
+      <div class="qa">
+        <h3>¿Necesito pagar algo para usar el kit?</h3>
+        <p>Necesitas una clave de OpenRouter o de TypeSafe; el kit funciona con cualquiera de las dos.
+        Todo el kit gasta céntimos: la entrada cuesta 0,042 $ por millón de tokens y la salida es gratis.</p>
+      </div>
+      <div class="qa">
+        <h3>¿Los números del test son los que voy a sacar yo?</h3>
+        <p>Probablemente no exactamente. Son de una fecha y una versión concretas del modelo. Por eso
+        el kit trae el script y no solo la tabla: los que valen son los tuyos.</p>
+      </div>
+      <div class="qa">
+        <h3>¿Esto no es lo mismo que un clasificador de toda la vida?</h3>
+        <p>Conceptualmente, sí, y conviene decirlo. Clasificadores así hay desde hace años, y ya hay
+        alternativas abiertas que corren en una gráfica de casa. Lo que ha cambiado no es la
+        capacidad: es el precio y la latencia. Que no es poco, pero es otra cosa.</p>
+      </div>
+      <div class="qa">
+        <h3>¿Sirve para mi caso?</h3>
+        <p>Si tienes volumen, respuestas cerradas y un criterio que cabe en una frase, sí. Si necesitas
+        generar texto, contar, calcular fechas o razonar en varios pasos, no. La hoja de decisión lo
+        resuelve en un minuto.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    var form = document.getElementById('kit-form');
+    var estado = document.getElementById('kit-estado');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var url = form.getAttribute('data-endpoint');
+      var boton = form.querySelector('button');
+      if (!url || url.indexOf('http') !== 0) {
+        estado.textContent = 'El formulario aún no está conectado.';
+        return;
+      }
+      boton.disabled = true;
+      estado.textContent = 'Enviando…';
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: form.email.value.trim() })
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        form.reset();
+        estado.textContent = 'Hecho. Revisa tu correo en un par de minutos (y la carpeta de spam, por si acaso).';
+      }).catch(function () {
+        estado.textContent = 'No se ha podido enviar. Comprueba el correo e inténtalo otra vez.';
+      }).then(function () { boton.disabled = false; });
+    });
+  })();
+  </script>
+
+  <footer>
+    <p>Kit Jev · <span class="mono">septiembre de 2026</span> · por
+    <a href="https://iacentry.com">Centry</a>. Hecho con la API pública de TypeSafe; no tenemos
+    ninguna relación con ellos.</p>
+  </footer>
+</div>
+</body>
+</html>
