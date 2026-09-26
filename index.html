@@ -197,9 +197,9 @@ footer a{color:var(--calib)}
     <div class="capture">
       <h2>Te lo mando ahora</h2>
       <p class="sub">Un correo con el enlace al kit y la hoja de decisión en PDF, al momento.</p>
-      <!-- CONECTAR: pega en data-endpoint la Production URL del webhook de n8n
+      <!-- Conectado al webhook de n8n
            (workflow n8n/kit-jev-emails.json). -->
-      <form id="kit-form" data-endpoint="PEGA_AQUI_LA_URL_DEL_WEBHOOK_DE_N8N">
+      <form id="kit-form" data-endpoint="https://osaisa.iacentry.com/webhook/kit-jev">
         <label for="email" style="position:absolute;left:-9999px">Tu correo</label>
         <input id="email" type="email" name="email" required placeholder="tu@correo.com" autocomplete="email">
         <button type="submit">Enviarme el kit</button>
