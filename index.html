@@ -180,10 +180,12 @@ input[type=email]:focus{outline:none;border-color:var(--signal);box-shadow:0 0 0
 .js .rv.in{opacity:1;transform:none}
 .bar .fill{transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
 
+/* con "reducir movimiento" activado: nada se desplaza, pero sí hay fundidos suaves */
+@keyframes funde{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{transition:none!important;animation:none!important}
-  .js .hero > *,.js .rv{opacity:1!important;transform:none!important}
+  .js .hero > *{animation-name:funde}
+  .js .rv{transform:none;transition:opacity .9s ease;transition-delay:var(--d,0s)}
 }
 </style>
 </head>
@@ -382,7 +384,7 @@ input[type=email]:focus{outline:none;border-color:var(--signal);box-shadow:0 0 0
       // al terminar, quita las clases para que el hover de cada pieza vuelva a su ritmo
       setTimeout(function () { el.classList.remove('rv', 'in'); el.style.removeProperty('--d'); }, 1200);
     }
-    if (!('IntersectionObserver' in window) || quieto) {
+    if (!('IntersectionObserver' in window)) {
       piezas.forEach(mostrar);
     } else {
       var io = new IntersectionObserver(function (entradas) {
